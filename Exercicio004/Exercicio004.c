@@ -1,7 +1,7 @@
 /*  
 Exercicio004.c
 
-Feito por Natan de Aragão Müller no dia 27/08/2025 às xxhxx
+Feito por Natan de Aragão Müller no dia 27/08/2025 às 18h17
 
 Enunciado: Considere uma estrutura (struct) para armazenar dia, mˆes e ano para determinado dia (conforme declarac ̧  ̃ao
 do exemplo abaixo) e implemente duas func ̧  ̃oes em C: uma para incrementar o dia (recebendo uma vari  ́avel da
@@ -15,8 +15,31 @@ typedef struct {
   int dia, mes, ano;
 } dia_t;
 
-void incrementa_dia(dia_t *d);
-void mostra_dia(dia_t d);
+int bissexto(int ano) {
+    return (ano % 400 == 0) || (ano % 4 == 0 && ano % 100 != 0);
+}
+
+void incrementa_dia(dia_t *d) {
+
+    int dias_mes[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+
+    if (bissexto(d->ano)) {
+        dias_mes[2] = 29;
+    }
+    d->dia++;
+
+    if (d->dia > dias_mes[d->mes]) {
+        d->dia = 1;
+        d->mes++;
+        if (d->mes > 12) {
+            d->mes = 1;
+            d->ano++;
+        }
+    }
+}
+void mostra_dia(dia_t d) {
+  printf("%02d/%02d/%04d", d.dia, d.mes, d.ano);
+}
 
 int main() {
   dia_t d;
